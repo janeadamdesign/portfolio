@@ -1,0 +1,108 @@
+// RTG Classes
+.fade-appear,
+.fade-appear-active,
+.fade-exit,
+.fade-exit-active,
+.fade-exit-done,
+.fade-enter,
+.fade-enter-active {
+  transition: 0.5s ease-in-out;
+}
+.fade-appear,
+.fade-enter {
+  opacity: 0;
+  transform: translateX(50px);
+}
+.fade-appear.fade-appear-active,
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0px);
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit.fade-exit-active,
+.fade-exit-done {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+//fadesimple text transition
+.fadesimple-appear,
+.fadesimple-appear-active,
+.fadesimple-exit,
+.fadesimple-exit-active,
+.fadesimple-exit-done,
+.fadesimple-enter,
+.fadesimple-enter-active {
+  transition: 0.5s ease-in-out;
+}
+.fadesimple-appear,
+.fadesimple-enter {
+  opacity: 0;
+  transform: translateX(50px) scaleY(1.1);
+}
+.fadesimple-appear.fadesimple-appear-active,
+.fadesimple-enter.fadesimple-enter-active {
+  opacity: 1;
+  transform: translateX(0px) scaleY(1.1);
+}
+.fadesimple-exit {
+  opacity: 1;
+}
+.fadesimple-exit.fadesimple-exit-active,
+.fadesimple-exit-done {
+  opacity: 0;
+  transform: translateX(-50px) scaleY(1.1);
+}
+
+//imageslide
+/*
+.imageslide-appear,
+.imageslide-appear-active,
+.imageslide-exit,
+.imageslide-exit-active,
+.imageslide-exit-done,
+.imageslide-enter,
+.imageslide-enter-active {
+  transition: 0.5s ease-in-out;
+}
+.imageslide-appear,
+.imageslide-enter {
+  transform: translateY(-100%);
+}
+.imageslide-appear.imageslide-appear-active,
+.imageslide-enter.imageslide-enter-active {
+  transform: translateY(0%);
+}
+.imageslide-exit {
+  transform: translateY(0%);
+}
+.imageslide-exit.imageslide-exit-active,
+.imageslide-exit-done {
+  transform: translateY(100%);
+}
+*/
+
+.imageslide-enter,
+.imageslide-enter-active,
+.imageslide-exit,
+.imageslide-exit-active {
+  transition: 0.5s ease-in-out;
+}
+
+.imageslide-enter {
+  transform: translateY(-100%);
+}
+
+.imageslide-enter-active {
+  transform: translateY(0%);
+}
+
+.imageslide-exit {
+  transform: translateY(0%);
+}
+
+.imageslide-exit-active {
+  transform: translateY(100%);
+}
