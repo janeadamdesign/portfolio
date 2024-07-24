@@ -59,7 +59,7 @@ function AnimatedRoutes(): React.ReactElement {
               extantImg.src === image.src
           )
         ) {
-          return prev;
+          return [...prev];
         } else return [...prev, image];
       });
     };

@@ -149,6 +149,7 @@ export default function Header(props: HeaderProps): React.ReactElement {
           onMouseUp={clickStateSetterFalse}
         >
           <motion.button
+            key={`${id}-button`}
             id={`${id}-button`}
             className="navlink"
             onClick={backgroundClickHandler}
@@ -172,7 +173,9 @@ export default function Header(props: HeaderProps): React.ReactElement {
   const buttonArray: string[] = ["landing", "portfolio", "contact"];
   const renderedButtons: JSX.Element[] = buttonArray.map(
     (buttonText: string): JSX.Element => {
-      return button(buttonText);
+      return (
+        <React.Fragment key={buttonText}>{button(buttonText)}</React.Fragment>
+      );
     }
   );
 
@@ -227,7 +230,7 @@ export default function Header(props: HeaderProps): React.ReactElement {
               {...titleSwipeValues}
               className="header-half flex-row"
               id="navlinks"
-              style={{ flex: 1, marginLeft: `1em`}}
+              style={{ flex: 1, marginLeft: `1em` }}
             >
               {renderedButtons}
             </motion.div>

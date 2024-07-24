@@ -6,6 +6,7 @@ import {
   useScroll,
   MotionValue,
   useTransform,
+  AnimatePresence,
 } from "framer-motion";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 //Local imports
@@ -161,7 +162,7 @@ export default function Welcome(props: WelcomeProps): React.ReactElement {
       setMalevichProgressState(malevichProgress.get());
     };
     window.addEventListener("scroll", scrollOn);
-    return ():void => {
+    return (): void => {
       window.removeEventListener("scroll", scrollOn);
     };
   }, [cinemaProgress, malevichProgress]);
@@ -294,6 +295,95 @@ export default function Welcome(props: WelcomeProps): React.ReactElement {
     };
   }, [proficiencySelector]);
 
+  // Loading state
+  const [isLoaded, setIsLoaded]: [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>
+  ] = useState<boolean>(false);
+  const [loadedPercentage, setLoadedPercentage]: [
+    number,
+    React.Dispatch<React.SetStateAction<number>>
+  ] = useState<number>(0);
+  const [portion, setPortion]: [
+    number,
+    React.Dispatch<React.SetStateAction<number>>
+  ] = useState<number>(0);
+  useEffect((): void => {
+    setPortion(
+      blackAndWhiteImages.length +
+        colourImages.length +
+        vadymImages.length +
+        cubismCondensedImages.length
+    );
+  }, [blackAndWhiteImages, colourImages, vadymImages, cubismCondensedImages]);
+  useEffect((): void => {
+    const full: number = 57;
+    if (portion < full) {
+      setIsLoaded(false);
+    } else setIsLoaded(true);
+    const percentage: number = (portion / full) * 100;
+    // console.log(percentage);
+    setLoadedPercentage(percentage);
+  }, [isLoaded, portion]);
+
+  const generateOpeningText = (): JSX.Element => {
+    return (
+      <motion.div
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ ease: "easeInOut", duration: 0.25 }}
+        key={isLoaded ? "loaded" : "still-loading"}
+        id="first-text-bits"
+      >
+        <motion.p
+          key={isLoaded ? "loaded" : "loading"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ ease: "easeInOut", duration: 1, delay: 0.75 }}
+          className="welcome-subtitle canela canela-6"
+          id="jane-p"
+        >
+          {isLoaded ? `hello, I am Jane` : "loading"}
+          <motion.span
+            id="ellipses"
+            initial={{ marginLeft: 0 }}
+            animate={{ marginLeft: `2rem` }}
+            transition={{ ease: "easeInOut", delay: 1.75, duration: 0.5 }}
+          >
+            <span className="ellipsis1 animate-ellipsis">.</span>
+            <span className="ellipsis2 animate-ellipsis">.</span>
+            <span className="ellipsis3 animate-ellipsis">.</span>
+          </motion.span>
+        </motion.p>
+        {isLoaded ? (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ ease: "easeInOut", duration: 1, delay: 1.5 }}
+            className="welcome-subtitle canela canela-3"
+          >
+            crafting elegant technological matter
+          </motion.p>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ ease: "easeInOut", duration: 1, delay: 1.5 }}
+            id="progress-bar-container"
+          >
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${loadedPercentage}%` }}
+              transition={{ease: "easeInOut", duration: 0.1}}
+              id="progress-bar"
+            />
+          </motion.div>
+        )}
+      </motion.div>
+    );
+  };
+
   return (
     <motion.div
       key="welcome"
@@ -308,199 +398,179 @@ export default function Welcome(props: WelcomeProps): React.ReactElement {
           ref={firstRef as React.RefObject<HTMLDivElement>}
           {...paragraphValueGenerator(firstInView)}
         >
-          <div id="first-text-bits">
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ ease: "easeInOut", duration: 1, delay: 0.75 }}
-              className="welcome-subtitle canela canela-6"
-              id="jane-p"
-            >
-              hello, I am Jane
-              <motion.span
-                id="ellipses"
-                initial={{ marginLeft: 0 }}
-                animate={{ marginLeft: `2rem` }}
-                transition={{ ease: "easeInOut", delay: 1.75, duration: 0.5 }}
-              >
-                <span className="ellipsis1 animate-ellipsis">.</span>
-                <span className="ellipsis2 animate-ellipsis">.</span>
-                <span className="ellipsis3 animate-ellipsis">.</span>
-              </motion.span>
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ ease: "easeInOut", duration: 1, delay: 1.5 }}
-              className="welcome-subtitle canela canela-3"
-            >
-              crafting elegant technological matter{" "}
-            </motion.p>
-          </div>
+          <AnimatePresence mode="wait">{generateOpeningText()}</AnimatePresence>
         </motion.div>
-        <div id="colourful-cinema">
-          <div
-            id="first-cinema-page"
-            ref={cinemaContainerRef as React.RefObject<HTMLDivElement>}
-            style={
-              {
-                "--skewiff": `${cinemaScrollState * 60}deg`,
-              } as React.CSSProperties
-            }
-          >
-            <motion.div
-              style={{ y: cinema1Constant, justifyContent: `flex-start` }}
-              className="cinema-container flex-row"
-            >
-              {" "}
-              {blackAndWhiteImages[blackAndWhiteIndex] ? (
-                <div
-                  id="cinema-1"
-                  className="cinema-viewer"
-                  style={{
-                    backgroundImage: `url(${blackAndWhiteImages[blackAndWhiteIndex].src})`,
-                  }}
-                />
-              ) : (
-                <></>
-              )}
-            </motion.div>
-            <motion.div
-              style={{
-                y: cinemaScrollState > 0.7 ? cinema1Constant : cinema2Constant,
-                justifyContent: `flex-end`,
-              }}
-              className="cinema-container flex-row"
-            >
-              {" "}
-              {colourImages[colourIndex] ? (
-                <div
-                  id="cinema-2"
-                  className="cinema-viewer"
-                  style={{
-                    backgroundImage: `url(${colourImages[colourIndex].src})`,
-                  }}
-                />
-              ) : (
-                <></>
-              )}
-            </motion.div>
-          </div>
-        </div>
-        <div
-          id="elegance-container"
-          ref={malevichRef as React.RefObject<HTMLDivElement>}
-        >
-          <motion.div
-            id="elegance"
-            className="flex-column flex-center text-container"
-            ref={secondRef as React.RefObject<HTMLDivElement>}
-            {...paragraphValueGenerator(secondInView)}
-          >
+
+        {isLoaded && (
+          <>
             {" "}
-            <p
-              className="welcome-subtitle canela canela-3"
-              id="elegance-statement"
-            >
-              because elegance in technology{" "}
-              <em
-                id="matters"
+            <div id="colourful-cinema">
+              <div
+                id="first-cinema-page"
+                ref={cinemaContainerRef as React.RefObject<HTMLDivElement>}
                 style={
                   {
-                    "--underlineMove": `-${
-                      Math.max(0, malevichProgressState - 0.4) * 600
-                    }%`,
+                    "--skewiff": `${cinemaScrollState * 60}deg`,
                   } as React.CSSProperties
                 }
-                className={
-                  secondInView ? "matters-underline" : "matters-no-line"
-                }
               >
-                matters
-              </em>{" "}
-            </p>{" "}
-          </motion.div>
-          <div className="text-container" />
-          <div id="malevich">
-            {vadymImages[vadymIndex] ? (
-              <div
-                id="big-screen"
-                style={{
-                  backgroundImage: `url(${vadymImages[vadymIndex].src})`,
-                }}
-              />
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
-        <div
-          className="flex-row"
-          id="proficiencies"
-          ref={proficienciesRef as React.RefObject<HTMLDivElement>}
-          style={{ height: `${proficiencies.length * 100}vh` }}
-        >
-          <motion.div
-            className="text-container flex-column flex-center half-container"
-            id="proficiency-container"
-            ref={thirdRef as React.RefObject<HTMLDivElement>}
-            {...paragraphValueGenerator(thirdInView)}
-          >
-            {" "}
-            <div id="proficiency-pill-container">
-              {" "}
-              <p className="welcome-subtitle canela canela-4" id="im-prof">
-                I'm proficient with
-              </p>
-              <motion.div
-                initial={{ transform: `translateX(0%)` }}
-                animate={{
-                  transform: `translateX(${proficiencySelector * 100}%)`,
-                }}
-                transition={{ type: "spring", damping: 20, stiffness: 500 }}
-                id="progress-pill"
-                ref={pillRef as React.RefObject<HTMLDivElement>}
-              />
-            </div>
-          </motion.div>
-          <div
-            className="half-container"
-            {...paragraphValueGenerator(thirdInView)}
-          >
-            <motion.div
-              className="text-container flex-column flex-center"
-              id="right-half-fixed"
-              {...paragraphValueGenerator(thirdInView)}
-            >
-              <SwitchTransition mode="out-in">
-                <CSSTransition
-                  key={proficiencySelector}
-                  timeout={500}
-                  classNames="fade"
+                <motion.div
+                  style={{ y: cinema1Constant, justifyContent: `flex-start` }}
+                  className="cinema-container flex-row"
                 >
-                  <ProficiencyCell
-                    proficiencies={proficiencies}
-                    proficiencySelector={proficiencySelector}
+                  {" "}
+                  {blackAndWhiteImages[blackAndWhiteIndex] ? (
+                    <div
+                      id="cinema-1"
+                      className="cinema-viewer"
+                      style={{
+                        backgroundImage: `url(${blackAndWhiteImages[blackAndWhiteIndex].src})`,
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </motion.div>
+                <motion.div
+                  style={{
+                    y:
+                      cinemaScrollState > 0.7
+                        ? cinema1Constant
+                        : cinema2Constant,
+                    justifyContent: `flex-end`,
+                  }}
+                  className="cinema-container flex-row"
+                >
+                  {" "}
+                  {colourImages[colourIndex] ? (
+                    <div
+                      id="cinema-2"
+                      className="cinema-viewer"
+                      style={{
+                        backgroundImage: `url(${colourImages[colourIndex].src})`,
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </motion.div>
+              </div>
+            </div>
+            <div
+              id="elegance-container"
+              ref={malevichRef as React.RefObject<HTMLDivElement>}
+            >
+              <motion.div
+                id="elegance"
+                className="flex-column flex-center text-container"
+                ref={secondRef as React.RefObject<HTMLDivElement>}
+                {...paragraphValueGenerator(secondInView)}
+              >
+                {" "}
+                <p
+                  className="welcome-subtitle canela canela-3"
+                  id="elegance-statement"
+                >
+                  because elegance in technology{" "}
+                  <em
+                    id="matters"
+                    style={
+                      {
+                        "--underlineMove": `-${
+                          Math.max(0, malevichProgressState - 0.4) * 600
+                        }%`,
+                      } as React.CSSProperties
+                    }
+                    className={
+                      secondInView ? "matters-underline" : "matters-no-line"
+                    }
+                  >
+                    matters
+                  </em>{" "}
+                </p>{" "}
+              </motion.div>
+              <div className="text-container" />
+              <div id="malevich">
+                {vadymImages[vadymIndex] ? (
+                  <div
+                    id="big-screen"
+                    style={{
+                      backgroundImage: `url(${vadymImages[vadymIndex].src})`,
+                    }}
                   />
-                </CSSTransition>
-              </SwitchTransition>
-            </motion.div>
-          </div>{" "}
-        </div>
-      </div>
-      <div id="final-container">
-        {cubismCondensedImages[cubismIndex] ? (
-          <div
-            id="last-screen"
-            style={{
-              backgroundImage: `url(${cubismCondensedImages[cubismIndex].src})`,
-            }}
-          />
-        ) : (
-          <></>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+            <div
+              className="flex-row"
+              id="proficiencies"
+              ref={proficienciesRef as React.RefObject<HTMLDivElement>}
+              style={{ height: `${proficiencies.length * 100}vh` }}
+            >
+              <motion.div
+                className="text-container flex-column flex-center half-container"
+                id="proficiency-container"
+                ref={thirdRef as React.RefObject<HTMLDivElement>}
+                {...paragraphValueGenerator(thirdInView)}
+              >
+                {" "}
+                <div id="proficiency-pill-container">
+                  {" "}
+                  <p className="welcome-subtitle canela canela-4" id="im-prof">
+                    I'm proficient with
+                  </p>
+                  <motion.div
+                    initial={{ transform: `translateX(0%)` }}
+                    animate={{
+                      transform: `translateX(${proficiencySelector * 100}%)`,
+                    }}
+                    transition={{ type: "spring", damping: 20, stiffness: 500 }}
+                    id="progress-pill"
+                    ref={pillRef as React.RefObject<HTMLDivElement>}
+                  />
+                </div>
+              </motion.div>
+              <div
+                className="half-container"
+                {...paragraphValueGenerator(thirdInView)}
+              >
+                <motion.div
+                  className="text-container flex-column flex-center"
+                  id="right-half-fixed"
+                  {...paragraphValueGenerator(thirdInView)}
+                >
+                  <SwitchTransition mode="out-in">
+                    <CSSTransition
+                      key={proficiencySelector}
+                      timeout={500}
+                      classNames="fade"
+                    >
+                      <ProficiencyCell
+                        proficiencies={proficiencies}
+                        proficiencySelector={proficiencySelector}
+                      />
+                    </CSSTransition>
+                  </SwitchTransition>
+                </motion.div>
+              </div>{" "}
+            </div>
+            <div id="final-container">
+              {cubismCondensedImages[cubismIndex] ? (
+                <div
+                  id="last-screen"
+                  style={{
+                    backgroundImage: `url(${cubismCondensedImages[cubismIndex].src})`,
+                  }}
+                />
+              ) : (
+                <></>
+              )}
+            </div>
+          </>
         )}
       </div>
     </motion.div>
   );
 }
-

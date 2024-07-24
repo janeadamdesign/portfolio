@@ -315,9 +315,6 @@ body,
   margin: 1.5rem;
 }
 
-#first-text-bits {
-  overflow:hidden;
-}
 
 .welcome-subtitle {
   font-size: min(3rem, 8vw);
@@ -388,8 +385,18 @@ body,
   //  animation: blink 1s infinite
 }
 
+
+
+#first-text-bits {
+  overflow:hidden !important;
+  width: 100%;
+}
+
 #jane-p {
+  margin-left: auto;
+  margin-right: auto;
   transform: translateX(2rem);
+  max-width: 40rem;
 }
 
 .ellipsis1,
@@ -989,4 +996,24 @@ body,
 
 #bar-container:hover {
   cursor:pointer;
+}
+
+// Welcome screen loading bar
+
+#progress-bar-container {
+  margin: auto;
+  max-width: 30rem;
+  height: 0.9rem;
+  border: 0.1rem solid black;
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+#progress-bar {
+  position: absolute;
+  height: 100%;
+  background-color: black;
+  left: 0;
 }
