@@ -12,6 +12,7 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 import ProficiencyCell from "./ProficiencyCell";
 
 interface WelcomeLoadedProps {
+  isTiny: boolean;
   blackAndWhiteImages: HTMLImageElement[];
   colourImages: HTMLImageElement[];
   vadymImages: HTMLImageElement[];
@@ -28,12 +29,14 @@ export default function WelcomeLoaded(
 ): React.ReactElement {
   // Destructuring props
   const {
+    isTiny,
     blackAndWhiteImages,
     colourImages,
     vadymImages,
     cubismCondensedImages,
     paragraphValueGenerator,
   }: {
+    isTiny: boolean;
     blackAndWhiteImages: HTMLImageElement[];
     colourImages: HTMLImageElement[];
     vadymImages: HTMLImageElement[];
@@ -82,6 +85,7 @@ export default function WelcomeLoaded(
     target: cinemaContainerRef as React.RefObject<HTMLDivElement>,
     offset: ["start end", "end start"],
   });
+
   const [cinemaScrollState, setCinemaScrollState]: [
     number,
     React.Dispatch<React.SetStateAction<number>>
@@ -91,10 +95,30 @@ export default function WelcomeLoaded(
     [0, 1],
     [0, 5000]
   );
+  const [windowHeight, setWindowHeight]: [
+    number,
+    React.Dispatch<React.SetStateAction<number>>
+  ] = useState<number>(0);
+  useEffect((): (() => void) => {
+    const setHeight = (): void => {
+      setWindowHeight(4 * window.innerHeight);
+      // setWindowHeight(Math.pow(window.innerHeight, Math.pow(1.2, 1.05)))
+    };
+    setHeight();
+    window.addEventListener("resize", setHeight);
+    return (): void => {
+      window.removeEventListener("resize", setHeight);
+    };
+  }, []);
   const cinema2Constant: MotionValue<number> = useTransform(
     cinemaProgress,
     [0, 1],
     [0, 3750]
+  );
+  const cinema3Constant: MotionValue<number> = useTransform(
+    cinemaProgress,
+    [0, 1],
+    [0, windowHeight]
   );
   const malevichRef: React.RefObject<HTMLDivElement | null> =
     useRef<HTMLDivElement | null>(null);
@@ -143,7 +167,8 @@ export default function WelcomeLoaded(
   useEffect((): void => {
     setBlackAndWhiteIndex(Math.min(19, Math.floor(cinemaScrollState * 30)));
     setColourIndex(
-      Math.max(0, Math.min(14, Math.floor((cinemaScrollState - 0.53) * 32)))
+      // Math.max(0, Math.min(14, Math.floor((cinemaScrollState - 0.53) * 32)))
+      Math.max(0, Math.min(14, Math.floor((1 - cinemaScrollState) * 32)))
     );
   }, [cinemaScrollState]);
   useEffect((): void => {
@@ -252,7 +277,7 @@ export default function WelcomeLoaded(
       {" "}
       <div id="colourful-cinema">
         <div
-          id="first-cinema-page"
+          id={isTiny ? "first-cinema-page-mobile" : "first-cinema-page"  }
           ref={cinemaContainerRef as React.RefObject<HTMLDivElement>}
           style={
             {
@@ -261,7 +286,11 @@ export default function WelcomeLoaded(
           }
         >
           <motion.div
-            style={{ y: cinema1Constant, justifyContent: `flex-start` }}
+            style={
+              isTiny
+                ? { transform: `translateY(10%)`, justifyContent: `flex-start` }
+                : { y: cinema1Constant, justifyContent: `flex-start` }
+            }
             className="cinema-container flex-row"
           >
             {" "}
@@ -278,10 +307,14 @@ export default function WelcomeLoaded(
             )}
           </motion.div>
           <motion.div
-            style={{
-              y: cinemaScrollState > 0.7 ? cinema1Constant : cinema2Constant,
-              justifyContent: `flex-end`,
-            }}
+            style={
+              isTiny
+                ? {  justifyContent: `flex-end` }
+                : {
+                    y: cinema3Constant,
+                    justifyContent: `flex-end`,
+                  }
+            }
             className="cinema-container flex-row"
           >
             {" "}

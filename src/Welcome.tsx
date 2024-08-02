@@ -1,16 +1,13 @@
 //Package Imports
 import React, { useRef, useState, useEffect } from "react";
-import {
-  motion,
-  useInView,
-  AnimatePresence,
-} from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 //Local imports
 import { animateOpacityValues } from "./JADTypes";
 import { blackAndWhite, colour, vadym, cubismCondensed } from "./ImageData";
 import WelcomeLoaded from "./WelcomeLoaded";
 
 interface WelcomeProps {
+  isTiny: boolean;
   storeImages: (
     srcArray: string[],
     stateSetter: React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
@@ -25,9 +22,11 @@ interface WelcomeProps {
 export default function Welcome(props: WelcomeProps): React.ReactElement {
   // Destructuring props
   const {
+    isTiny,
     storeImages,
     paragraphValueGenerator,
   }: {
+    isTiny: boolean;
     storeImages: (
       srcArray: string[],
       stateSetter: React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
@@ -199,6 +198,7 @@ export default function Welcome(props: WelcomeProps): React.ReactElement {
         </motion.div>
         {isLoaded && (
           <WelcomeLoaded
+            isTiny={isTiny}
             blackAndWhiteImages={blackAndWhiteImages}
             colourImages={colourImages}
             vadymImages={vadymImages}

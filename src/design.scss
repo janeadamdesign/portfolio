@@ -244,8 +244,6 @@ body,
 
 #title-text {
   font-size: min(7vw, 2.8rem);
-  //font-size: 2.8rem;
-  padding-top: 1%;
 }
 
 #navlinks {
@@ -260,7 +258,6 @@ body,
 
 .link {
   width: max(75%, 10rem);
-  //width: 75%;
   max-width: 10rem;
   perspective: 1000px;
   position: relative;
@@ -290,6 +287,7 @@ body,
   transform: scaleY(1.1);
   letter-spacing: 0.075rem;
   transform: rotateX(-30deg);
+  color:black;
 }
 
 #contact-page {
@@ -499,7 +497,13 @@ body,
 #first-cinema-page {
   position: relative;
   height: 640vh;
-  min-height: 390vw;
+  // min-height: 390vw; ?????
+}
+
+#first-cinema-page-mobile {
+  position: relative;
+  height: 300vh;
+  // min-height: 390vw; ?????
 }
 
 @keyframes warpEffect {
@@ -538,6 +542,7 @@ body,
 }
 
 .cinema-viewer {
+  max-width: 80vw;
   height: 60vh;
   max-height: 50rem;
   aspect-ratio: 16/9;
@@ -659,17 +664,18 @@ body,
   animation: hurdy-gurdy 5s infinite ease-in-out;
   transition: 0.25s ease-in-out;
   overflow: hidden;
+  
 }
 
 .portrait-holder {
-  // height: min(75%, 50vw);
-  //height: 75%;
   max-height: 40rem;
+  aspect-ratio: 3/4;
 }
 
 .portrait {
   object-fit: cover;
   height: 100%;
+
 }
 
 #bathroom-holder {
@@ -881,10 +887,9 @@ body,
 
 .text-cube {
   padding: 0.5rem;
-  // border: 0.125rem solid #ff00ee;
   justify-content: space-between;
   align-items: left;
-  overflow: scroll;
+  overflow: hidden;
   max-width: 40rem;
   max-height: 40rem;
 }

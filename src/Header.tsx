@@ -10,6 +10,24 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps): React.ReactElement {
+  //Operating System check for font adjustment
+  const [isMac, setIsMac]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = useState<boolean>(false);
+  const checkMac = (): void => {
+    let os: string | null = null;
+    const userAgent: string = window.navigator.userAgent;
+    if (userAgent.indexOf('Mac') !== -1) {
+      os = 'MacOS'
+    }
+    if (os){
+      setIsMac(true)
+    }
+  }
+  useEffect(():void => {
+    checkMac()
+  }, [])
+
+
+
   // Click handler to change props.pagestate
   const backgroundClickHandler = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -162,7 +180,7 @@ export default function Header(props: HeaderProps): React.ReactElement {
                 : { ...animateUnHover }
             }
           >
-            <p className="heveria">{id}</p>
+            <p className="heveria" style={{transform: !isMac ? `translateY(10%) rotateX(-30deg)`: ""}}>{id}</p>
           </motion.button>
         </Link>
       </div>
@@ -219,7 +237,7 @@ export default function Header(props: HeaderProps): React.ReactElement {
               className="header-half flex-column flex-center"
               id="title-container"
             >
-              <p className="canela canela-6" id="title-text">
+              <p className="canela canela-6" id="title-text" style={{paddingTop: isMac ? `1%` : ""}}>
                 {" "}
                 Jane Adam Design
               </p>{" "}

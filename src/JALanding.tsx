@@ -130,6 +130,7 @@ function AnimatedRoutes(): React.ReactElement {
           path="/"
           element={
             <Welcome
+              isTiny={isTiny}
               storeImages={storeImages}
               paragraphValueGenerator={paragraphValueGenerator}
             />
@@ -140,6 +141,7 @@ function AnimatedRoutes(): React.ReactElement {
           path="*"
           element={
             <Welcome
+            isTiny={isTiny}
               storeImages={storeImages}
               paragraphValueGenerator={paragraphValueGenerator}
             />
