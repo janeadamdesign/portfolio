@@ -241,6 +241,9 @@ body,
   max-width: 50rem;
   flex: 1;
 }
+#title-container:hover {
+  cursor:pointer;
+}
 
 #title-text {
   font-size: min(7vw, 2.8rem);
@@ -271,23 +274,22 @@ body,
   transform-style: preserve-3d;
   top: 0;
   left: 0;
-  background-color: rgba(153, 255, 0, 0.25);
+  // background-color: rgba(153, 255, 0, 0.25);
   border: 0.1px solid $dark-background;
 }
 
 .navlink:hover {
   cursor: pointer;
-  background-color: rgba(162, 0, 255, 0.25);
+  // background-color: rgba(162, 0, 255, 0.25);
 }
 
 .navlink > p {
-  font-size: min(1.275rem, 4vw);
+  font-size: min(1.275rem, 3.5vw);
   //font-size: 1.275rem;
   font-weight: 400;
-  transform: scaleY(1.1);
   letter-spacing: 0.075rem;
-  transform: rotateX(-30deg);
-  color:black;
+ //  transform: rotateX(-30deg);
+  color: black;
 }
 
 #contact-page {
@@ -312,7 +314,6 @@ body,
   text-align: center;
   margin: 1.5rem;
 }
-
 
 .welcome-subtitle {
   font-size: min(3rem, 8vw);
@@ -346,7 +347,7 @@ body,
 }
 
 #right-half-fixed {
-  overflow:hidden;
+  overflow: hidden;
 }
 
 #next-container {
@@ -383,17 +384,15 @@ body,
   //  animation: blink 1s infinite
 }
 
-
-
 #first-text-bits {
-  overflow:hidden !important;
+  overflow: hidden !important;
   width: 100%;
 }
 
 #jane-p {
   margin-left: auto;
   margin-right: auto;
-  transform: translateX(2rem);
+  transform: scaleY(1.1) translateX(5%);
   max-width: 40rem;
 }
 
@@ -664,7 +663,6 @@ body,
   animation: hurdy-gurdy 5s infinite ease-in-out;
   transition: 0.25s ease-in-out;
   overflow: hidden;
-  
 }
 
 .portrait-holder {
@@ -675,7 +673,6 @@ body,
 .portrait {
   object-fit: cover;
   height: 100%;
-
 }
 
 #bathroom-holder {
@@ -851,7 +848,6 @@ body,
   animation: none !important;
 }
 
-
 .image-cube {
   // border: 0.125rem solid #00ff33;
   overflow: hidden;
@@ -860,7 +856,6 @@ body,
 .textfield-title {
   // font-size: 3rem;
   font-size: min(3rem, 10vw);
-
 }
 
 @keyframes embolden {
@@ -989,6 +984,7 @@ body,
   justify-content: space-around;
   padding: 30%;
   transition: 0.1s ease-in-out;
+  box-sizing: border-box;
 }
 
 #bar-container > span {
@@ -1000,7 +996,7 @@ body,
 }
 
 #bar-container:hover {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 // Welcome screen loading bar

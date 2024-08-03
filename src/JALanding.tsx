@@ -19,7 +19,6 @@ import Portfolio from "./Portfolio";
 import Header from "./Header";
 import { ashSquares, bonxSquares, draumSquares } from "./ImageData";
 
-
 function AnimatedRoutes(): React.ReactElement {
   // width checking
   const [isTiny, setIsTiny]: [
@@ -39,13 +38,23 @@ function AnimatedRoutes(): React.ReactElement {
     };
   }, [isTiny]);
 
-  // Scroll to Top logic
+  // Scroll to Top logic. Edited to fix for Firefox: scrollTop 1 : 0
   const location: Location = useLocation();
-  useEffect((): void => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+  useEffect((): (() => void) => {
+    let isFirefox: boolean = false;
+    const userAgent: string = window.navigator.userAgent;
+    if (userAgent.indexOf("Firefox") !== -1) {
+      isFirefox = true;
+    }
+    const scrollTimer: NodeJS.Timeout | number = setTimeout((): void => {
+      window.scrollTo({
+        top: isFirefox ? 1 : 0,
+        behavior: "smooth",
+      });
+    }, 1);
+    return (): void => {
+      clearTimeout(scrollTimer);
+    };
   }, [location]);
 
   // Functions to pass to children
@@ -121,7 +130,6 @@ function AnimatedRoutes(): React.ReactElement {
     );
   }, [storeImages]);
 
-
   return (
     <AnimatePresence>
       <Routes>
@@ -141,7 +149,7 @@ function AnimatedRoutes(): React.ReactElement {
           path="*"
           element={
             <Welcome
-            isTiny={isTiny}
+              isTiny={isTiny}
               storeImages={storeImages}
               paragraphValueGenerator={paragraphValueGenerator}
             />
@@ -190,9 +198,6 @@ export default function JALanding(): React.ReactElement {
       window.removeEventListener("resize", checkViewportWidth);
     };
   }, [isMobile]);
-
-
-
 
   return (
     <div

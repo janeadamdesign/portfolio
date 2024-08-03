@@ -39,7 +39,7 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
     isTiny: boolean;
   } = props;
 
-  // Preloading Images: in theory we can use the same URLs, no need to inject from the state array. Once we have stored as state we can inject from the original url string[]
+  // Preloading Images: in theory we can use the same URLs, no need to inject from the state array. Once we have stored as state we can inject from the original url string[]. Does not work as intended on Firefox.
   const [_ashSquareImages, setAshSquareImages]: [
     HTMLImageElement[],
     React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
@@ -488,7 +488,7 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
           showStatus={false}
           interval={2500}
         >
-          {injectedImages.map((imageElement: JSX.Element):JSX.Element => {
+          {injectedImages.map((imageElement: JSX.Element): JSX.Element => {
             return imageElement;
           })}
         </Carousel>

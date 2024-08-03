@@ -205,7 +205,7 @@ export default function Contact(props: ContactProps): React.ReactElement {
   useEffect((): void | (() => void) => {
     if (!blob1Ref.current || !blob2Ref.current) return;
     const tweenTimer: NodeJS.Timeout | number = setTimeout((): void => {
-      // Not sure how to type a KUTE tween 
+      // Not sure how to type a KUTE tween
       const tween = KUTE.fromTo(
         blob1Ref.current,
         { path: blob1Ref.current },
@@ -768,7 +768,11 @@ export default function Contact(props: ContactProps): React.ReactElement {
           ref={contactSectionRef as React.RefObject<HTMLDivElement>}
           {...paragraphValueGenerator(contactSectionInView)}
         >
-          <div id="contact-holder" className="flex-column flex-center" style={{width: isTiny ? `95%` : `75%`}}>
+          <div
+            id="contact-holder"
+            className="flex-column flex-center"
+            style={{ width: isTiny ? `95%` : `75%` }}
+          >
             <div id="contact-title-container" className="flex-row flex-center">
               <p
                 id="contact-title"

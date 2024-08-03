@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 interface HeaderProps {
   pageState: number;
@@ -11,22 +12,34 @@ interface HeaderProps {
 
 export default function Header(props: HeaderProps): React.ReactElement {
   //Operating System check for font adjustment
-  const [isMac, setIsMac]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = useState<boolean>(false);
+  const [isMac, setIsMac]: [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>
+  ] = useState<boolean>(false);
+  const [isFirefox, setIsFirefox]: [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>
+  ] = useState<boolean>(false);
   const checkMac = (): void => {
     let os: string | null = null;
+    let isFirefox: boolean = false;
     const userAgent: string = window.navigator.userAgent;
-    if (userAgent.indexOf('Mac') !== -1) {
-      os = 'MacOS'
+    if (userAgent.indexOf("Mac") !== -1) {
+      os = "MacOS";
     }
-    if (os){
-      setIsMac(true)
+    if (userAgent.indexOf("Firefox") !== -1) {
+      isFirefox = true;
     }
-  }
-  useEffect(():void => {
-    checkMac()
-  }, [])
-
-
+    if (os) {
+      setIsMac(true);
+    } else setIsMac(false);
+    if (isFirefox) {
+      setIsFirefox(true);
+    } else setIsFirefox(false);
+  };
+  useEffect((): void => {
+    checkMac();
+  }, []);
 
   // Click handler to change props.pagestate
   const backgroundClickHandler = (
@@ -45,8 +58,13 @@ export default function Header(props: HeaderProps): React.ReactElement {
         number = 3;
         break;
     }
+    // alert(props.pageState + id);
     if (number > 0) {
-      props.setPageState(number);
+      props.setPageState(number); 
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -130,6 +148,7 @@ export default function Header(props: HeaderProps): React.ReactElement {
     const initial: {} = {
       transform: `translateY(-45%) rotateX(30deg)`,
       boxShadow: `0 5px 0 0 rgba(51, 51, 51)`,
+      backgroundColor: `rgba(153, 255, 0, 0.25)`,
     };
     const springTransition: {} = {
       type: "spring",
@@ -140,6 +159,7 @@ export default function Header(props: HeaderProps): React.ReactElement {
     const transition: {} = {
       transform: { ...easeTransition },
       boxShadow: { ...springTransition },
+      backgroundColor: { ease: "ease", duration: 0 },
     };
     const animateClick: {} = {
       transform: `translateY(-40%) rotateX(30deg)`,
@@ -150,6 +170,7 @@ export default function Header(props: HeaderProps): React.ReactElement {
       transform: `translateY(calc(-45% - 5px)) rotateX(30deg)`,
       boxShadow: `0 10px 0 0 rgba(51, 51, 51)`,
       transition: { ...transition },
+      backgroundColor: `rgba(162, 0, 255, 0.25)`,
     };
     const animateUnHover: {} = {
       ...initial,
@@ -165,6 +186,8 @@ export default function Header(props: HeaderProps): React.ReactElement {
           onMouseLeave={stateSetterFalse}
           onMouseDown={clickStateSetterTrue}
           onMouseUp={clickStateSetterFalse}
+          onTouchStart={clickStateSetterTrue}
+          onTouchEnd={clickStateSetterFalse}
         >
           <motion.button
             key={`${id}-button`}
@@ -175,12 +198,24 @@ export default function Header(props: HeaderProps): React.ReactElement {
             animate={
               clickState
                 ? { ...animateClick }
-                : state
-                ? { ...animateHover }
-                : { ...animateUnHover }
+                : !props.isMobile
+                ? state
+                  ? { ...animateHover }
+                  : { ...animateUnHover }
+                : {}
             }
           >
-            <p className="heveria" style={{transform: !isMac ? `translateY(10%) rotateX(-30deg)`: ""}}>{id}</p>
+            <p
+              className="heveria"
+              style={{
+                transform:
+                  !isMac || (isMac && isFirefox)
+                    ? `translateY(10%) rotateX(-30deg) `
+                    : " rotateX(-30deg)  ",
+              }}
+            >
+              {id}
+            </p>
           </motion.button>
         </Link>
       </div>
@@ -229,32 +264,36 @@ export default function Header(props: HeaderProps): React.ReactElement {
       id="head-container"
     >
       <div id="design-head" className="full-dims flex-row">
-        <AnimatePresence mode="popLayout">
-          {!burgerToggle ? (
-            <motion.div
-              key="normal-title"
-              {...titleSwipeValues}
-              className="header-half flex-column flex-center"
-              id="title-container"
-            >
-              <p className="canela canela-6" id="title-text" style={{paddingTop: isMac ? `1%` : ""}}>
-                {" "}
-                Jane Adam Design
-              </p>{" "}
-            </motion.div>
-          ) : (
-            <motion.div
-              key="burgered-menu"
-              {...titleSwipeValues}
-              className="header-half flex-row"
-              id="navlinks"
-              style={{ flex: 1, marginLeft: `1em` }}
-            >
-              {renderedButtons}
-            </motion.div>
-          )}
-        </AnimatePresence>
-
+        <SwitchTransition mode="out-in">
+          <CSSTransition key={burgerToggle ? "true" : "false"} timeout={0}>
+            {!burgerToggle ? (
+              <motion.div
+                key="normal-title"
+                {...titleSwipeValues}
+                className="header-half flex-column flex-center"
+                id="title-container"
+              >
+                <p
+                  className="canela canela-6"
+                  id="title-text"
+                  style={{ paddingTop: isMac ? `1%` : "" }}
+                >
+                  <Link to="welcome"> Jane Adam Design</Link>
+                </p>{" "}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="burgered-menu"
+                {...titleSwipeValues}
+                className="header-half flex-row"
+                id="navlinks"
+                style={{ flex: 1, marginLeft: `1em` }}
+              >
+                {renderedButtons}
+              </motion.div>
+            )}
+          </CSSTransition>
+        </SwitchTransition>
         {!props.isMobile ? (
           <div className="header-half flex-row" id="navlinks">
             {renderedButtons}
