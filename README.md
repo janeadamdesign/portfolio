@@ -1,46 +1,50 @@
-# Getting Started with Create React App
+# Jane Adam Design
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Portfolio Website
 
-## Available Scripts
+Personal portfolio website dedicated to showcasing my work, featuring three main React page routes and a header containing satisfying, 'gummy' animations on button hover / click UI.
 
-In the project directory, you can run:
+A landing page dedicated to visual demonstration of ability to create aesthetically compelling websites features: a progress bar that accompanies image preload (irrelevant if user has very fast download speeds); animated text to greet page load; parallax scrolling, 3D CSS elements, image slideshows, and dynamic scroll animations.
 
-### `npm start`
+A portfolio page showcases finished projects, with each project displayed inside its own modular container. Each container is composed of SVG backgrounds exhibiting fluid curves, which transition into on another behind a blurred filter to simulate the 'breathing' of a 'living website'. There is a second background layer animating text elements corresponding to development dependencies, which are injected into the DOM to simulate an application progressing through lines of code, before each disappears behind the 'mist' of the blurred, partially transparent background elements. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The container then displays two square JSX containers, the first exhibiting an auto-cycling image carousel injected with screenshots from the respective rendered project—the second exhibits a short text description whose UI enables the user to click through 'pages' containing different paragraphs.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+When external links to the project URL are hovered over, the 'living' aspect of each project container is slowed or paused entirely as the backgrounds transition to greyscale and the blur filter is tempered, suggesting a frozen temporality.
 
-### `npm test`
+A contact page displays similarly animated SVG backgrounds behind a blur filter, this time also with a small morphing 'blob' which moves across the page and changes shape / dimensions. There are two portrait pictures of myself which rotate in relation to scroll before the user arrives at a contact pane which animates text upon click in the manner of CLI entry to reveal email, telephone, linkedIn & github details.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+All images generated with Midjourney.
 
-### `npm run build`
+## Known issues
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Firefox (all environments): Image preloading functionality not working. Causes brief flashes of whitespace on the first time each image in slideshow is displayed.
+- Firefox (iOS): appearance / retreat of bottom browser bezel causes unwanted expansion / contraction of UI. Not present on any other browser/environment combination.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Dependencies
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- @fortawesome/fontawesome-free
+- @fortawesome/fontawesome-svg-core
+- @fortawesome/free-solid-svg-icons
+- @fortawesome/react-fontawesome
+- @react-spring/web
+- @types/gsap
+- framer-motion
+- gsap
+- kute.js
+- parallax
+- react
+- react-dom
+- react-responsive-carousel
+- react-router-dom
+- react-scripts
+- react-scroll-parallax
+- react-spring
+- react-transition-group
+- sass
+- scrollmagic
+- scrollmagic-plugin-gsap
+- typescript
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
