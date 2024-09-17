@@ -135,3 +135,10 @@ export const draumSquares: string[] = [
     "./DraumSquares/DRAUM4.png",
 ]
 
+export const spaSquares: string[] = [
+    "./SpaSquares/spa1.png",
+    "./SpaSquares/spa2.png",
+    "./SpaSquares/spa3.png",
+    "./SpaSquares/spa4.png",
+]
+

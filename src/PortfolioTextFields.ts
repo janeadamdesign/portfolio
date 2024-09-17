@@ -5,7 +5,8 @@ export const asherahTextFields: TextFields = {
     title: "Asherah",
     summary:
       "Brochure website for a contemporary Mediterranean restaurant. There are five core pages: a landing page with contact details; an exploratory page which narrativises and illustrates the biography of the founder and history of the restaurant; a gallery consisting of customer-contributed unposed photographs; a page containing a UI through which end-users can secure restaurant reservations with dynamic generation of timeslots on the basis of availability.",
-    tinySummary: "Brochure website for a contemporary Mediterranean restaurant. Gallery and reservation-booking functionality",
+    tinySummary:
+      "Brochure website for a contemporary Mediterranean restaurant. Gallery and reservation-booking functionality",
     apiCalls: [
       "emailJS api: automated emails to customer",
       "textbelt API: automated SMS to customer",
@@ -60,7 +61,8 @@ export const bonxTextFields: TextFields = {
       "eCommerce website for a skin / hair product manufacturer. Featuring dynamic UX on header, footer and retractable menu elements, including animated discount code reveal. Landing page exemplifies brand identity: youth-oriented cosmetics with cyberpunk aesthetic. Interactive animated ‘cards’ expand to show ingredients used in products and act as links to product catalogue pages...",
       "Modular animated card elements are passed data as props to exhibit each individual product. ‘Values’ page elucidates design philosophy and corporate/social responsibility commitments with full-page illustrations. Basket functionality retrieves data from React state mirrored to browser cookies such that data is retained on page refresh. A dedicated basket page directs user to checkout via Stripe.",
     ],
-    tinySummary: "eCommerce website for skin / hair product manufacturer. Dynamix UX, youth-oriented brand identity, cyberpunk aesthetic.",
+    tinySummary:
+      "eCommerce website for skin / hair product manufacturer. Dynamix UX, youth-oriented brand identity, cyberpunk aesthetic.",
 
     apiCalls: [
       "getAddress API: generate addresses from postcode",
@@ -131,7 +133,8 @@ export const draumspaTextFields: TextFields = {
       "Full screen weather app: primary weather data retrieved from OpenWeatherAPI. On page load a dynamic background cycles through a carousel of weather-related ‘scenes’. UI allows for location to be retrieved through device location settings or manual text entry: once initialised the scene background mirrors the current weather at given location...",
       "The UI itself is inspired by the GameCube system menu: a cuboid with the capacity to rotate through 3D space. There are nine weather widgets, each of which upon click will rotate the 3D object to an adjacent face displaying further information, usually animated graphs.",
     ],
-    tinySummary: "Full screen weather app: primary data retrieved from OpenWeatherAPI. Dynamic background to mirror current weather. 3D UI.",
+    tinySummary:
+      "Full screen weather app: primary data retrieved from OpenWeatherAPI. Dynamic background to mirror current weather. 3D UI.",
     widgets: {
       1: "A wide widget iterates through two displays: the first projects forecast for week ahead, the second shows more detailed information about the current day’s weather. Corresponding face loads graph data for hourly temp / current day and the daily high/low for the coming week.",
       2: "Text description of precipitation probability and cloud cover: corresponding face loads graph data for these metrics over the next 48hrs.",
@@ -187,7 +190,60 @@ export const draumspaTextFields: TextFields = {
       "a21",
       "a22",
       "a23",
+    ],
+  },
+};
 
+export const spaTextFields: TextFields = {
+  front: {
+    title: "The Spa Galleries",
+    summary:
+      "Production website for a small local gallery and events space situated in The Pantiles, Tunbridge Wells. Built in Next.js using App Router. Three dynamically rendered pages: a welcome page, a page showing artists who currently exhibit at The Spa Galleries, and an events page. Features three-dimensional wireframe animations developed using Three.js and vanilla JavaScript manipulation of DOM elements. Modular 'card' components used to inject each artist or event, respectively.",
+    tinySummary:
+      "Local gallery website developed in Next.js / App Router with three dynamically rendered pages featuring 3D wireframe animations.",
+    apiCalls: [],
+    dependencies: [
+      "@tsparticles/engine",
+      "@tsparticles/react",
+      "eslint",
+      "eslint-config-next",
+      "framer-motion",
+      "next",
+      "p5",
+      "react",
+      "react-dom",
+      "react-p5-wrapper",
+      "react-spring",
+      "react-transition-group",
+      "react-tsparticles",
+      "sass",
+      "three",
+      "typescript",
+      "validator",
+      "a",
+      "a1",
+      "a2",
+      "a3",
+      "a4",
+      "a5",
+      "a6",
+      "a7",
+      "a8",
+      "a9",
+      "a10",
+      "a11",
+      "a12",
+      "a13",
+      "a14",
+      "a15",
+      "a16",
+      "a17",
+      "a18",
+      "a19",
+      "a20",
+      "a21",
+      "a22",
+      "a23",
     ],
   },
 };

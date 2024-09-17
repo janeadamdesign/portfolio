@@ -11,11 +11,12 @@ import {
   TextFields,
   ArrayCompareParameters,
 } from "./JADTypes";
-import { ashSquares, bonxSquares, draumSquares } from "./ImageData";
+import { ashSquares, bonxSquares, draumSquares, spaSquares } from "./ImageData";
 import {
   asherahTextFields,
   bonxTextFields,
   draumspaTextFields,
+  spaTextFields,
 } from "./PortfolioTextFields";
 
 interface PortfolioProps {
@@ -52,6 +53,10 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
     HTMLImageElement[],
     React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
   ] = useState<HTMLImageElement[]>([]);
+  const [_spaSquareImages, setSpaSquareImages]: [
+    HTMLImageElement[],
+    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
+  ] = useState<HTMLImageElement[]>([]);
   useEffect((): void => {
     const imageParams: [
       string[],
@@ -60,6 +65,7 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
       [ashSquares, setAshSquareImages],
       [bonxSquares, setBonxSquareImages],
       [draumSquares, setDraumSquareImages],
+      [spaSquares, setSpaSquareImages],
     ];
     imageParams.forEach(
       (
@@ -84,7 +90,6 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
   ] = useState<boolean>(false);
 
   // Link hovering B/W logic
-
   const [asherahLinkHover, setAsherahLinkHover]: [
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>
@@ -94,6 +99,10 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
     React.Dispatch<React.SetStateAction<boolean>>
   ] = useState<boolean>(false);
   const [draumspaLinkHover, setDraumspaLinkHover]: [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>
+  ] = useState<boolean>(false);
+  const [spaLinkHover, setSpaLinkHover]: [
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>
   ] = useState<boolean>(false);
@@ -108,6 +117,10 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
     React.Dispatch<React.SetStateAction<number>>
   ] = useState<number>(0);
   const [draumspaDependenciesSlice, setDraumspaDependenciesSlice]: [
+    number,
+    React.Dispatch<React.SetStateAction<number>>
+  ] = useState<number>(0);
+  const [spaDependenciesSlice, setSpaDependenciesSlice]: [
     number,
     React.Dispatch<React.SetStateAction<number>>
   ] = useState<number>(0);
@@ -149,6 +162,11 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
     draumspaTextFields.front.dependencies.map(
       (dependency: string): JSX.Element => injectTextCascadeField(dependency)
     );
+  const spaDependencyJSXArray: JSX.Element[] =
+    spaTextFields.front.dependencies.map(
+      (dependency: string): JSX.Element => injectTextCascadeField(dependency)
+    );
+
   /* useInView ref */
   const asherahRef: React.RefObject<HTMLDivElement | null> =
     useRef<HTMLDivElement | null>(null);
@@ -156,6 +174,9 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
     useRef<HTMLDivElement | null>(null);
   const draumspaRef: React.RefObject<HTMLDivElement | null> =
     useRef<HTMLDivElement | null>(null);
+  const spaRef: React.RefObject<HTMLDivElement | null> =
+    useRef<HTMLDivElement | null>(null);
+
   const asherahRefInView: boolean = useInView(
     asherahRef as React.RefObject<HTMLDivElement>,
     {
@@ -174,6 +195,13 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
       amount: 0.8,
     }
   );
+  const spaRefInView: boolean = useInView(
+    spaRef as React.RefObject<HTMLDivElement>,
+    {
+      amount: 0.8,
+    }
+  );
+
   const arrayCompare = (
     dependencySlice: number,
     dependencySource: JSX.Element[],
@@ -205,6 +233,12 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
       draumspaDependencyJSXArray,
       setDraumspaDependenciesSlice,
       draumspaRefInView,
+    ],
+    [
+      spaDependenciesSlice,
+      spaDependencyJSXArray,
+      setSpaDependenciesSlice,
+      spaRefInView,
     ],
   ];
   const shortTimeoutLength: number = 300;
@@ -260,6 +294,23 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
       clearTimeout(arrayComparisonTimeout);
     };
   }, [draumspaDependenciesSlice, draumspaRefInView, draumspaLinkHover]);
+  useEffect((): void | (() => void) => {
+    if (spaLinkHover) return;
+    let timeoutLength: number = 0;
+    const parameterSet: ArrayCompareParameters = arrayCompareParameters[3];
+    if (parameterSet[0] === 0) {
+      timeoutLength = longTimeoutLength;
+    } else timeoutLength = shortTimeoutLength;
+    const arrayComparisonTimeout: NodeJS.Timeout | number = setTimeout(
+      (): void => {
+        arrayCompare(...parameterSet);
+      },
+      timeoutLength
+    );
+    return (): void => {
+      clearTimeout(arrayComparisonTimeout);
+    };
+  }, [spaDependenciesSlice, spaRefInView, spaLinkHover]);
 
   // Large, complex, entry generator function
   const portfolioEntryGenerator = (
@@ -324,6 +375,18 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
         sectionReference = draumspaRef as React.RefObject<HTMLDivElement>;
         hoverState = draumspaLinkHover;
         setHoverState = setDraumspaLinkHover;
+        break;
+      case "spa":
+        textFields = spaTextFields;
+        imageBorder = `0.125rem solid #ff00ee`;
+        textBorder = `0.125rem solid #00ff33`;
+        firstBg = "ptf5";
+        secondBg = "ptf6";
+        dependencyArray = spaDependencyJSXArray;
+        dependencySlice = spaDependenciesSlice;
+        sectionReference = spaRef as React.RefObject<HTMLDivElement>;
+        hoverState = spaLinkHover;
+        setHoverState = setSpaLinkHover;
         break;
     }
     // Logic to generate content for text cube
@@ -542,12 +605,15 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
             {textCube}
           </div>
         </div>
-        {index !== 2 && <div className="portfolio-entry-interstice" />}
+        {index !== entryParameters.length - 1 && (
+          <div className="portfolio-entry-interstice" />
+        )}
       </React.Fragment>
     );
   };
 
   const entryParameters: [string, string[]][] = [
+    ["Spa", spaSquares],
     ["DraumSpa", draumSquares],
     ["Bonx", bonxSquares],
     ["Asherah", ashSquares],
