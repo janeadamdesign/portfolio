@@ -376,7 +376,7 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
         hoverState = draumspaLinkHover;
         setHoverState = setDraumspaLinkHover;
         break;
-      case "spa":
+      case "spagalleries":
         textFields = spaTextFields;
         imageBorder = `0.125rem solid #ff00ee`;
         textBorder = `0.125rem solid #00ff33`;

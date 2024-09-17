@@ -198,7 +198,7 @@ export const spaTextFields: TextFields = {
   front: {
     title: "The Spa Galleries",
     summary:
-      "Production website for a small local gallery and events space situated in The Pantiles, Tunbridge Wells. Built in Next.js using App Router. Three dynamically rendered pages: a welcome page, a page showing artists who currently exhibit at The Spa Galleries, and an events page. Features three-dimensional wireframe animations developed using Three.js and vanilla JavaScript manipulation of DOM elements. Modular 'card' components used to inject each artist or event, respectively.",
+      "Brochure website for a small local gallery and events space situated in The Pantiles, Tunbridge Wells. Built in Next.js using App Router with three dynamically rendered sections: a welcome page, a page showing artists who currently exhibit at The Spa Galleries, and an events page. Features three-dimensional wireframe animations developed using Three.js and vanilla JavaScript manipulation of DOM elements. Modular 'card' components are used to inject each artist or event, respectively.",
     tinySummary:
       "Local gallery website developed in Next.js / App Router with three dynamically rendered pages featuring 3D wireframe animations.",
     apiCalls: [],
