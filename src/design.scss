@@ -399,7 +399,8 @@ body,
 
 .ellipsis1,
 .ellipsis2,
-.ellipsis3 {
+.ellipsis3,
+.ellipsis4 {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
   display: inline-block;
   margin: 0 1% 0 1%;
@@ -409,7 +410,7 @@ body,
   animation: cradle 1.8s ease-in-out infinite;
 }
 
-.ellipsis1 {
+.ellipsis1, .ellipsis4 {
   color: aqua;
 }
 
