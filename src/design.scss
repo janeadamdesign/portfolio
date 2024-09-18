@@ -857,7 +857,7 @@ body,
 
 .textfield-title {
   // font-size: 3rem;
-  font-size: min(3rem, 10vw);
+  font-size: max(2rem, min(2.75rem, 5vw, 5vh));
 }
 
 @keyframes embolden {
@@ -876,8 +876,8 @@ body,
 }
 
 .textfield-summary {
-  font-size: max(1.3rem, min(1.6rem, 1.6vw));
-  //font-size: 1.6rem;
+  font-size: max(1.2rem, min(1.6rem, 1.6vw));
+    //font-size: 1.6rem;
   margin: 0.5em 0 0.5em 0;
   transition: 0.5s ease-in-out;
 }

@@ -367,7 +367,7 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
     const summaryClassnames: string =
       "textfield-summary text-justify canela canela-1";
     const singleSummary: JSX.Element = textFields ? (
-      isTiny ? (
+      isTiny || (window.innerHeight < 800)? (
         injectParagraph(textFields.front.tinySummary as string)
       ) : (
         injectParagraph(textFields.front.summary as string)
