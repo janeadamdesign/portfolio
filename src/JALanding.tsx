@@ -95,8 +95,66 @@ function AnimatedRoutes(): React.ReactElement {
     };
   };
 
+  // Preloading portfolio images
 
+  const [ashSquareImages, setAshSquareImages]: [
+    HTMLImageElement[],
+    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
+  ] = useState<HTMLImageElement[]>([]);
+  const [bonxSquareImages, setBonxSquareImages]: [
+    HTMLImageElement[],
+    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
+  ] = useState<HTMLImageElement[]>([]);
+  const [draumSquareImages, setDraumSquareImages]: [
+    HTMLImageElement[],
+    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
+  ] = useState<HTMLImageElement[]>([]);
+  const [spaSquareImages, setSpaSquareImages]: [
+    HTMLImageElement[],
+    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
+  ] = useState<HTMLImageElement[]>([]);
+  useEffect((): void => {
+    const imageParams: [
+      string[],
+      React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
+    ][] = [
+      [ashSquares, setAshSquareImages],
+      [bonxSquares, setBonxSquareImages],
+      [draumSquares, setDraumSquareImages],
+      [spaSquares, setSpaSquareImages],
+    ];
+    imageParams.forEach(
+      (
+        imageParamArray: [
+          string[],
+          React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
+        ]
+      ): void => {
+        storeImages(...imageParamArray);
+      }
+    );
+  }, [storeImages]);
 
+  // Check image loaded length
+  const [loadPortfolio, setLoadPortfolio]: [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>
+  ] = useState<boolean>(false);
+  useEffect((): void => {
+    const fullLength: number =
+      ashSquares.length +
+      bonxSquares.length +
+      draumSquares.length +
+      spaSquares.length;
+    const currentLength: number =
+      ashSquareImages.length +
+      bonxSquareImages.length +
+      draumSquareImages.length +
+      spaSquareImages.length;
+    if (currentLength < fullLength) {
+      setLoadPortfolio(false);
+    } else setLoadPortfolio(true);
+  }, [ashSquareImages, bonxSquareImages, draumSquareImages, spaSquareImages]);
 
   return (
     <AnimatePresence>
@@ -126,7 +184,13 @@ function AnimatedRoutes(): React.ReactElement {
         <Route
           key="portfolio"
           path="/portfolio"
-          element={<Portfolio storeImages={storeImages} isTiny={isTiny} />}
+          element={
+            <Portfolio
+              storeImages={storeImages}
+              isTiny={isTiny}
+              loadPortfolio={loadPortfolio}
+            />
+          }
         />
         <Route
           key="contact"

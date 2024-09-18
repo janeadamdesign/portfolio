@@ -180,6 +180,10 @@ export default function Welcome(props: WelcomeProps): React.ReactElement {
     );
   };
 
+
+
+  
+
   return (
     <motion.div
       key="welcome"

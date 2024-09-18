@@ -25,6 +25,7 @@ interface PortfolioProps {
     stateSetter: React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
   ) => void;
   isTiny: boolean;
+  loadPortfolio: boolean;
 }
 
 export default function Portfolio(props: PortfolioProps): React.ReactElement {
@@ -32,69 +33,15 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
   const {
     storeImages,
     isTiny,
+    loadPortfolio
   }: {
     storeImages: (
       srcArray: string[],
       stateSetter: React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
     ) => void;
     isTiny: boolean;
+    loadPortfolio: boolean;
   } = props;
-
-  // Preloading Images: in theory we can use the same URLs, no need to inject from the state array. Once we have stored as state we can inject from the original url string[]. Does not work as intended on Firefox.
-  const [ashSquareImages, setAshSquareImages]: [
-    HTMLImageElement[],
-    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-  ] = useState<HTMLImageElement[]>([]);
-  const [bonxSquareImages, setBonxSquareImages]: [
-    HTMLImageElement[],
-    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-  ] = useState<HTMLImageElement[]>([]);
-  const [draumSquareImages, setDraumSquareImages]: [
-    HTMLImageElement[],
-    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-  ] = useState<HTMLImageElement[]>([]);
-  const [spaSquareImages, setSpaSquareImages]: [
-    HTMLImageElement[],
-    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-  ] = useState<HTMLImageElement[]>([]);
-  useEffect((): void => {
-    const imageParams: [
-      string[],
-      React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-    ][] = [
-      [ashSquares, setAshSquareImages],
-      [bonxSquares, setBonxSquareImages],
-      [draumSquares, setDraumSquareImages],
-      [spaSquares, setSpaSquareImages],
-    ];
-    imageParams.forEach(
-      (
-        imageParamArray: [
-          string[],
-          React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-        ]
-      ): void => {
-        storeImages(...imageParamArray);
-      }
-    );
-  }, [storeImages]);
-
-  // Check image loaded length
-  const [loadPortfolio, setLoadPortfolio]: [boolean, React.Dispatch<React.SetStateAction<boolean>>] = useState<boolean>(false);
-  useEffect(():void=>{
-    const fullLength: number = ashSquares.length + bonxSquares.length + draumSquares.length + spaSquares.length;
-    const currentLength: number = ashSquareImages.length + bonxSquareImages.length + draumSquareImages.length + spaSquareImages.length;
-    if (currentLength < fullLength) {
-      setLoadPortfolio(false)
-    }
-    else setLoadPortfolio(true);
-  }, [ashSquareImages, bonxSquareImages, draumSquareImages, spaSquareImages])
-
-
-
-
-
-
 
   /* Text Field States: controls which block of text is displayed in Bonx & Draumspa entries. Responsive to UI click functions */
   const [bonxTextToggle, setBonxTextToggle]: [
@@ -643,11 +590,12 @@ export default function Portfolio(props: PortfolioProps): React.ReactElement {
       id="portfolio-page"
       {...animateOpacityValues}
     >
-      {loadPortfolio && entryParameters.map(
-        (entryArgs: [string, string[]], index: number): JSX.Element => {
-          return portfolioEntryGenerator(...entryArgs, index);
-        }
-      )}
+      {loadPortfolio &&
+        entryParameters.map(
+          (entryArgs: [string, string[]], index: number): JSX.Element => {
+            return portfolioEntryGenerator(...entryArgs, index);
+          }
+        )}
     </motion.div>
   );
 }
