@@ -17,7 +17,7 @@ import Welcome from "./Welcome";
 import Contact from "./Contact";
 import Portfolio from "./Portfolio";
 import Header from "./Header";
-import { ashSquares, bonxSquares, draumSquares } from "./ImageData";
+import { ashSquares, bonxSquares, draumSquares, spaSquares } from "./ImageData";
 
 function AnimatedRoutes(): React.ReactElement {
   // width checking
@@ -95,40 +95,8 @@ function AnimatedRoutes(): React.ReactElement {
     };
   };
 
-  // Preloading portfolio images
 
-  const [_ashSquareImages, setAshSquareImages]: [
-    HTMLImageElement[],
-    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-  ] = useState<HTMLImageElement[]>([]);
-  const [_bonxSquareImages, setBonxSquareImages]: [
-    HTMLImageElement[],
-    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-  ] = useState<HTMLImageElement[]>([]);
-  const [_draumSquareImages, setDraumSquareImages]: [
-    HTMLImageElement[],
-    React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-  ] = useState<HTMLImageElement[]>([]);
-  useEffect((): void => {
-    const imageParams: [
-      string[],
-      React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-    ][] = [
-      [ashSquares, setAshSquareImages],
-      [bonxSquares, setBonxSquareImages],
-      [draumSquares, setDraumSquareImages],
-    ];
-    imageParams.forEach(
-      (
-        imageParamArray: [
-          string[],
-          React.Dispatch<React.SetStateAction<HTMLImageElement[]>>
-        ]
-      ): void => {
-        storeImages(...imageParamArray);
-      }
-    );
-  }, [storeImages]);
+
 
   return (
     <AnimatePresence>
